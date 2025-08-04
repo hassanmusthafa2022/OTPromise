@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mithaq-ul-Hassan: The Final Stand</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --gold: #FFD700;
+            --purple: #8B5CF6;
+            --cyan: #00FFFF;
+            --dark: #0A0A0A;
+        }
+        body { font-family: 'Lato', sans-serif; background: var(--dark); color: #E5E5E5; overflow-x: hidden; }
+        .cinzel { font-family: 'Cinzel Decorative', serif; }
+        .gold-text { color: var(--gold); text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .purple-text { color: var(--purple); text-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+        .cyan-text { color: var(--cyan); text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
+        .glass-effect { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .neon-glow { box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); }
+        .pulse-gold { animation: pulse-gold 2s infinite; }
+        @keyframes pulse-gold { 0%, 100% { box-shadow: 0 0 5px var(--gold); } 50% { box-shadow: 0 0 20px var(--gold), 0 0 30px var(--gold); } }
+        .checkbox-custom { appearance: none; width: 24px; height: 24px; border: 2px solid var(--purple); border-radius: 4px; position: relative; cursor: pointer; transition: all 0.3s; }
+        .checkbox-custom:checked { background: var(--purple); box-shadow: 0 0 10px var(--purple); }
+        .checkbox-custom:checked::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--gold); font-size: 16px; font-weight: bold; }
+        .progress-ring { transform: rotate(-90deg); }
+        .progress-ring__circle { stroke-dasharray: 314; stroke-dashoffset: 314; transition: stroke-dashoffset 0.5s ease-in-out; }
+        .page { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .battle-card { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(0, 255, 255, 0.1)); border: 1px solid rgba(255, 215, 0, 0.2); transition: all 0.3s; }
+        .battle-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3); }
+        .textarea-custom {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--purple);
+            border-radius: 8px;
+            padding: 12px;
+            color: #E5E5E5;
+            width: 100%;
+            min-height: 100px;
+            transition: all 0.3s;
+        }
+        .textarea-custom:focus {
+            outline: none;
+            box-shadow: 0 0 15px var(--purple);
+            border-color: var(--cyan);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- கடவுச்சொல் சரியென்றால் மட்டும் இந்த பகுதி காண்பிக்கப்படும் -->
+    <div id="main-content" style="display: none;">
+
+        <!-- Global Header -->
+        <header class="glass-effect p-6 mb-8 border-b border-yellow-500/20">
+            <div class="max-w-7xl mx-auto">
+                <h1 class="cinzel text-4xl md:text-6xl font-bold gold-text text-center mb-2">
+                    Mithaq-ul-Hassan
+                </h1>
+                <h2 class="cinzel text-xl md:text-2xl purple-text text-center">
+                    The Final Stand (இறுதிப் போர்)
+                </h2>
+                <p class="text-center mt-4 cyan-text">For Hassan (ஹஸ்ஸான்)</p>
+            </div>
+            
+            <nav class="flex justify-center mt-8 space-x-4 md:space-x-8">
+                <button onclick="showPage('battlefield')" class="nav-btn px-4 py-2 md:px-6 md:py-3 glass-effect hover:neon-glow transition-all duration-300">
+                    <i class="fas fa-crosshairs mr-2"></i>
+                    இன்றைய களம்
+                </button>
+                <button onclick="showPage('covenant')" class="nav-btn px-4 py-2 md:px-6 md:py-3 glass-effect hover:neon-glow transition-all duration-300">
+                    <i class="fas fa-scroll mr-2"></i>
+                    உடன்படிக்கை
+                </button>
+                <button onclick="showPage('reports')" class="nav-btn px-4 py-2 md:px-6 md:py-3 glass-effect hover:neon-glow transition-all duration-300">
+                    <i class="fas fa-chart-line mr-2"></i>
+                    போர் அறிக்கை
+                </button>
+            </nav>
+        </header>
+
+        <!-- Page 1: Today's Battlefield -->
+        <div id="battlefield" class="page active max-w-7xl mx-auto px-4">
+            <div class="text-center mb-8">
+                <h2 class="cinzel text-3xl gold-text mb-4" id="todayDate">Loading...</h2>
+                <p class="text-xl purple-text italic">
+                    ﴿وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا﴾
+                </p>
+                <p class="text-sm cyan-text mt-2">And those who strive for Us - We will surely guide them to Our ways</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Fortress Rules & Worship Tracker -->
+                <!-- (இந்த பகுதிகள் மாற்றம் இல்லாமல் அப்படியே இருக்கும்) -->
+                 <div class="battle-card p-6 rounded-lg">
+                    <h3 class="cinzel text-2xl gold-text mb-4"><i class="fas fa-shield-alt mr-2"></i> இன்றைய போர் விதிகள்</h3>
+                    <div class="space-y-4">
+                        <label class="flex items-center space-x-3"><input type="checkbox" class="checkbox-custom" id="rule1"><span>சுய இன்பம் இல்லை</span></label>
+                        <label class="flex items-center space-x-3"><input type="checkbox" class="checkbox-custom" id="rule2"><span>பெண்களைப் பார்த்தல் தடை</span></label>
+                        <label class="flex items-center space-x-3"><input type="checkbox" class="checkbox-custom" id="rule3"><span>ஆசை ஊட்டும் பக்கம் திரும்புவதில்லை</span></label>
+                        <label class="flex items-center space-x-3"><input type="checkbox" class="checkbox-custom" id="rule4"><span>தனிமையில் கண்ணியம்</span></label>
+                        <label class="flex items-center space-x-3"><input type="checkbox" class="checkbox-custom" id="rule5"><span>சமூக ஊடக ஒழுக்கம்</span></label>
+                        <label class="flex items-center space-x-3"><input type="checkbox" class="checkbox-custom" id="rule6"><span>குறைந்தது ஒரு தாவா</span></label>
+                    </div>
+                </div>
+                <div class="battle-card p-6 rounded-lg">
+                    <h3 class="cinzel text-2xl gold-text mb-4"><i class="fas fa-mosque mr-2"></i> வணக்க வழிபாடு கண்காணிப்பு</h3>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-5 gap-2 text-sm text-center font-bold cyan-text">
+                            <div>தொழுகை</div><div>ஃபர்ள்</div><div>முன் சுன்னத்</div><div>பின் சுன்னத்</div><div>குஷூ</div>
+                        </div>
+                        <div class="grid grid-cols-5 gap-2 items-center text-center">
+                            <span class="text-left">ஃபஜ்ர்</span><input type="checkbox" class="checkbox-custom mx-auto" id="fajrFard"><input type="checkbox" class="checkbox-custom mx-auto" id="fajrSunnahBefore"><span>-</span><input type="checkbox" class="checkbox-custom mx-auto" id="fajrKhushu">
+                        </div>
+                        <div class="grid grid-cols-5 gap-2 items-center text-center">
+                            <span class="text-left">லுஹர்</span><input type="checkbox" class="checkbox-custom mx-auto" id="dhuhrFard"><input type="checkbox" class="checkbox-custom mx-auto" id="dhuhrSunnahBefore"><input type="checkbox" class="checkbox-custom mx-auto" id="dhuhrSunnahAfter"><input type="checkbox" class="checkbox-custom mx-auto" id="dhuhrKhushu">
+                        </div>
+                        <div class="grid grid-cols-5 gap-2 items-center text-center">
+                            <span class="text-left">அஸர்</span><input type="checkbox" class="checkbox-custom mx-auto" id="asrFard"><span>-</span><span>-</span><input type="checkbox" class="checkbox-custom mx-auto" id="asrKhushu">
+                        </div>
+                        <div class="grid grid-cols-5 gap-2 items-center text-center">
+                            <span class="text-left">மஃரிப்</span><input type="checkbox" class="checkbox-custom mx-auto" id="maghribFard"><span>-</span><input type="checkbox" class="checkbox-custom mx-auto" id="maghribSunnahAfter"><input type="checkbox" class="checkbox-custom mx-auto" id="maghribKhushu">
+                        </div>
+                        <div class="grid grid-cols-5 gap-2 items-center text-center">
+                            <span class="text-left">இஷா</span><input type="checkbox" class="checkbox-custom mx-auto" id="ishaFard"><span>-</span><input type="checkbox" class="checkbox-custom mx-auto" id="ishaSunnahAfter"><input type="checkbox" class="checkbox-custom mx-auto" id="ishaKhushu">
+                        </div>
+                        <label class="flex items-center space-x-3 mt-4"><input type="checkbox" class="checkbox-custom" id="qiyam"><span>குறைந்தது 2 ரக்அத் இரவுத் தொழுகை</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- *** புதிய பகுதி: நன்மைகள் மற்றும் தவறுகள் *** -->
+            <div class="mt-8 battle-card p-6 rounded-lg">
+                <h3 class="cinzel text-2xl gold-text mb-4 text-center">
+                    <i class="fas fa-book-open mr-2"></i>
+                    இன்றைய குறிப்பேடு
+                </h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xl purple-text mb-3">
+                            <i class="fas fa-plus-circle mr-2"></i> கூடுதல் நன்மைகள்
+                        </h4>
+                        <textarea id="goodDeedsInput" class="textarea-custom" placeholder="இங்கே செய்த ஒவ்வொரு நன்மையையும் புதிய வரியில் பதிவு செய்யவும்..."></textarea>
+                    </div>
+                    <div>
+                        <h4 class="text-xl text-red-400 mb-3">
+                            <i class="fas fa-minus-circle mr-2"></i> பதியப்பட்ட தவறுகள்
+                        </h4>
+                        <textarea id="sinsInput" class="textarea-custom" placeholder="இங்கே செய்த ஒவ்வொரு தவறையும் புதிய வரியில் பதிவு செய்யவும்..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-8">
+                <button onclick="analyzeBattle()" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 pulse-gold">
+                    <i class="fas fa-chart-bar mr-2"></i>
+                    இன்றைய போரை பகுப்பாய்வு செய்
+                </button>
+            </div>
+        </div>
+
+        <!-- Page 2: The Covenant -->
+        <div id="covenant" class="page max-w-4xl mx-auto px-4">
+            <!-- (இந்த பகுதி மாற்றம் இல்லாமல் அப்படியே இருக்கும்) -->
+        </div>
+
+        <!-- Page 3: Battle Reports -->
+        <div id="reports" class="page max-w-4xl mx-auto px-4">
+            <h2 class="cinzel text-4xl gold-text text-center mb-8">
+                <i class="fas fa-medal mr-2"></i>
+                போர் அறிக்கை
+            </h2>
+            <div id="reportContent" class="glass-effect p-8 rounded-lg">
+                <p class="text-center text-gray-400">உங்கள் அறிக்கையைக் காண, இன்றைய களத்தை நிறைவு செய்யவும்</p>
+            </div>
+        </div>
+
+    </div> <!-- #main-content முடிவடைகிறது -->
+
+    <script>
+        // *** கடவுச்சொல் மற்றும் முதன்மைச் செயலி ***
+        document.addEventListener('DOMContentLoaded', function() {
+            const correctPassword = "hassaan123"; // உங்கள் ரகசிய கடவுச்சொல்லை மாற்றவும்
+            
+            // கடவுச்சொல் ஏற்கெனவே இந்த session-ல் சரிபார்க்கப்பட்டதா என்று சோதிக்கவும்
+            if (sessionStorage.getItem('isAuthenticated')) {
+                document.getElementById('main-content').style.display = 'block';
+                initializeApp();
+                return;
+            }
+
+            const enteredPassword = prompt("உள்ளே நுழைய கடவுச்சொல்லை உள்ளிடவும்:");
+            
+            if (enteredPassword === correctPassword) {
+                sessionStorage.setItem('isAuthenticated', 'true');
+                document.getElementById('main-content').style.display = 'block';
+                initializeApp();
+            } else {
+                alert("தவறான கடவுச்சொல். அணுகல் மறுக்கப்பட்டது.");
+                document.body.innerHTML = '<div style="text-align: center; padding-top: 50px; color: #FFD700; font-family: \'Cinzel Decorative\', serif; font-size: 2rem;">தவறான கடவுச்சொல். அணுகல் மறுக்கப்பட்டது.</div>';
+            }
+        });
+
+        function initializeApp() {
+            // *** செயலியைத் தொடங்கும் குறியீடு ***
+            document.querySelectorAll('.nav-btn')[0].classList.add('neon-glow');
+            setTodayDate();
+            loadDailyData();
+
+            // *** உங்கள் பழைய JavaScript செயல்பாடுகள் இங்கே தொடங்கும் ***
+            function setTodayDate() {
+                const today = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('todayDate').textContent = today.toLocaleDateString('ta-IN', options);
+            }
+
+            window.showPage = function(pageId) {
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('neon-glow'));
+                event.currentTarget.classList.add('neon-glow');
+                if (pageId === 'reports') {
+                    loadBattleReport();
+                }
+            }
+
+            function getTodayKey() {
+                return `mithaq_day_${new Date().toISOString().split('T')[0]}`;
+            }
+
+            function saveDailyData() {
+                const data = {
+                    date: new Date().toISOString().split('T')[0],
+                    fortressRules: {
+                        no_pmo: document.getElementById('rule1').checked,
+                        lower_gaze: document.getElementById('rule2').checked,
+                        no_tempting: document.getElementById('rule3').checked,
+                        modesty_private: document.getElementById('rule4').checked,
+                        social_discipline: document.getElementById('rule5').checked,
+                        dawah: document.getElementById('rule6').checked
+                    },
+                    prayers: {
+                        fajr: { fard: document.getElementById('fajrFard').checked, sunnahBefore: document.getElementById('fajrSunnahBefore').checked, khushu: document.getElementById('fajrKhushu').checked },
+                        dhuhr: { fard: document.getElementById('dhuhrFard').checked, sunnahBefore: document.getElementById('dhuhrSunnahBefore').checked, sunnahAfter: document.getElementById('dhuhrSunnahAfter').checked, khushu: document.getElementById('dhuhrKhushu').checked },
+                        asr: { fard: document.getElementById('asrFard').checked, khushu: document.getElementById('asrKhushu').checked },
+                        maghrib: { fard: document.getElementById('maghribFard').checked, sunnahAfter: document.getElementById('maghribSunnahAfter').checked, khushu: document.getElementById('maghribKhushu').checked },
+                        isha: { fard: document.getElementById('ishaFard').checked, sunnahAfter: document.getElementById('ishaSunnahAfter').checked, khushu: document.getElementById('ishaKhushu').checked }
+                    },
+                    qiyam: document.getElementById('qiyam').checked,
+                    // *** புதிய தரவுகளை சேமித்தல் ***
+                    good_deeds: document.getElementById('goodDeedsInput').value,
+                    sins: document.getElementById('sinsInput').value
+                };
+                localStorage.setItem(getTodayKey(), JSON.stringify(data));
+            }
+
+            function loadDailyData() {
+                const data = JSON.parse(localStorage.getItem(getTodayKey()) || '{}');
+                if (!data.date) return;
+                
+                if (data.fortressRules) {
+                    Object.keys(data.fortressRules).forEach((key, index) => {
+                        document.getElementById(`rule${index + 1}`).checked = data.fortressRules[key];
+                    });
+                }
+                
+                if (data.prayers) {
+                    ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'].forEach(prayer => {
+                        if(data.prayers[prayer]) {
+                           Object.keys(data.prayers[prayer]).forEach(type => {
+                               const element = document.getElementById(`${prayer}${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                               if(element) element.checked = data.prayers[prayer][type];
+                           });
+                        }
+                    });
+                }
+                
+                document.getElementById('qiyam').checked = data.qiyam || false;
+                
+                // *** புதிய தரவுகளை ஏற்றுதல் ***
+                document.getElementById('goodDeedsInput').value = data.good_deeds || '';
+                document.getElementById('sinsInput').value = data.sins || '';
+            }
+
+            window.analyzeBattle = function() {
+                saveDailyData();
+                const data = JSON.parse(localStorage.getItem(getTodayKey()));
+                
+                let score = 0;
+                let maxPossiblePoints = 100;
+
+                // Fortress Rules (6 x 6 = 36 points)
+                Object.values(data.fortressRules).forEach(rule => { if(rule) score += 6; });
+                let criticalBreach = !data.fortressRules.no_pmo || !data.fortressRules.lower_gaze;
+
+                // Worship (Fard 5*4=20, Sunnah 8*1=8, Khushu 5*1=5, Qiyam=5 -> Total 38 points)
+                Object.values(data.prayers).forEach(p => {
+                    if (p.fard) score += 4;
+                    if (p.sunnahBefore) score += 1;
+                    if (p.sunnahAfter) score += 1;
+                    if (p.khushu) score += 1;
+                });
+                if (data.qiyam) score += 5;
+
+                // *** புதிய மதிப்பெண் கணக்கீடு ***
+                // 1. நன்மைகளுக்கான போனஸ்
+                const goodDeedsList = (data.good_deeds || '').split('\n').filter(line => line.trim() !== '');
+                score += goodDeedsList.length * 5; // ஒவ்வொரு நன்மைக்கும் 5 புள்ளிகள்
+
+                // 2. தவறுகளுக்கான அபராதம்
+                const sinsList = (data.sins || '').split('\n').filter(line => line.trim() !== '');
+                score -= sinsList.length * 15; // ஒவ்வொரு தவறுக்கும் 15 புள்ளிகள் குறைப்பு
+
+                // அபாயகரமான மீறல் நடந்தால் கூடுதல் அபராதம்
+                if (criticalBreach) score -= 20;
+
+                score = Math.max(0, Math.min(100, score)); // மதிப்பெண் 0-100 க்குள் இருப்பதை உறுதி செய்தல்
+                
+                data.battleScore = Math.round(score);
+                data.criticalBreach = criticalBreach;
+                localStorage.setItem(getTodayKey(), JSON.stringify(data));
+                
+                showPage('reports');
+            }
+
+            function loadBattleReport() {
+                const data = JSON.parse(localStorage.getItem(getTodayKey()));
+                if (typeof data.battleScore === 'undefined') {
+                    document.getElementById('reportContent').innerHTML = '<p class="text-center text-gray-400">உங்கள் அறிக்கையைக் காண, இன்றைய களத்தை நிறைவு செய்யவும்</p>';
+                    return;
+                }
+                
+                // *** புதிய அறிக்கை உருவாக்கம் ***
+                const goodDeedsHTML = (data.good_deeds || '').trim() ? `
+                    <div class="glass-effect p-4 rounded-lg border border-green-500/30">
+                        <h4 class="cinzel text-xl purple-text mb-3"><i class="fas fa-plus-circle mr-2"></i>கூடுதல் நன்மைகள்</h4>
+                        <ul class="list-disc list-inside text-green-300">
+                            ${(data.good_deeds).split('\n').filter(l => l.trim()).map(deed => `<li>${deed}</li>`).join('')}
+                        </ul>
+                    </div>` : '';
+
+                const sinsHTML = (data.sins || '').trim() ? `
+                    <div class="glass-effect p-4 rounded-lg border border-red-500/30">
+                        <h4 class="cinzel text-xl text-red-400 mb-3"><i class="fas fa-minus-circle mr-2"></i>பதியப்பட்ட தவறுகள்</h4>
+                        <ul class="list-disc list-inside text-red-300">
+                             ${(data.sins).split('\n').filter(l => l.trim()).map(sin => `<li>${sin}</li>`).join('')}
+                        </ul>
+                    </div>` : '';
+
+                // மீதமுள்ள அறிக்கைப் பகுதிகள்
+                const score = data.battleScore;
+                const rules = data.fortressRules;
+                const prayers = data.prayers;
+                const prayerNames = { fajr: 'ஃபஜ்ர்', dhuhr: 'லுஹர்', asr: 'அஸர்', maghrib: 'மஃரிப்', isha: 'இஷா'};
+                
+                const reportHTML = `
+                    <div class="text-center mb-8">
+                        <h3 class="cinzel text-3xl gold-text mb-4">போர் மதிப்பெண்</h3>
+                        <div class="relative w-32 h-32 mx-auto">
+                            <svg class="progress-ring w-32 h-32"><circle class="progress-ring__circle stroke-current text-gray-600" cx="64" cy="64" r="50" stroke-width="8" fill="transparent"/><circle class="progress-ring__circle stroke-current text-yellow-500" cx="64" cy="64" r="50" stroke-width="8" fill="transparent" style="stroke-dashoffset: ${314 - (314 * score / 100)};"/></svg>
+                            <div class="absolute inset-0 flex items-center justify-center"><span class="text-3xl font-bold gold-text">${score}/100</span></div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="glass-effect p-4 rounded-lg">
+                            <h4 class="cinzel text-xl gold-text mb-3">கோட்டையின் நிலை</h4>
+                            <p class="${data.criticalBreach ? 'text-red-400' : 'text-green-400'}">${data.criticalBreach ? '⚠️ அபாயகரமான மீறல்! முக்கிய கோட்டைச் சுவர்கள் உடைக்கப்பட்டுள்ளன.' : '✅ கோட்டைச் சுவர்கள் உறுதியாக உள்ளன.'}</p>
+                        </div>
+                        ${goodDeedsHTML}
+                        ${sinsHTML}
+                        <div class="text-center mt-8">
+                            <button onclick="showPage('battlefield')" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg hover:from-purple-700 hover:to-cyan-700 transition-all"><i class="fas fa-redo mr-2"></i>போர்க்களத்திற்குத் திரும்பு</button>
+                        </div>
+                    </div>`;
+                document.getElementById('reportContent').innerHTML = reportHTML;
+            }
+
+            document.addEventListener('change', function(e) {
+                if (e.target.type === 'checkbox' || e.target.tagName === 'TEXTAREA') {
+                    saveDailyData();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
